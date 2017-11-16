@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class myPlayerController : MonoBehaviour {
     private Animator animator;
-    public float watcher;
+    public float watcherx;
+    public float watchery;
+    public float watcherz;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -26,7 +28,9 @@ public class myPlayerController : MonoBehaviour {
         {
             animator.SetBool("hasRun", true);
             animator.SetBool("isTired", false);
-            this.transform.position = GetNextPosition(speed, direction);
+            Vector3 nextposition = GetNextPosition(speed, direction);
+            this.transform.forward = (nextposition - this.transform.position).normalized;
+            this.transform.position = nextposition;
         }
     }
     private void LateUpdate()
@@ -34,7 +38,7 @@ public class myPlayerController : MonoBehaviour {
         float direction = Input.GetAxis("Horizontal");
         float speed = Mathf.Abs(direction) + Input.GetAxis("Vertical");
         animator.SetFloat("Speed", speed, 0.25f, Time.deltaTime);
-        animator.SetFloat("Direction", direction, 0.25f, Time.deltaTime);
+        animator.SetFloat("Direction", direction);
         if (animator.GetFloat("Speed") <= 0.1f)
         {
             animator.SetFloat("Speed", 0);
@@ -44,13 +48,27 @@ public class myPlayerController : MonoBehaviour {
     public Vector3 GetNextPosition(float speed, float direction)
     {
         speed = 0.02f * speed;
-        Vector3 front = this.transform.forward;
+        float myDirection = 1f - direction;
+        float rad = (3f * Mathf.PI / (2f * 2f) * myDirection - 1 / 4f * Mathf.PI);
 
-        float myDirection = 1 - direction;
-        float rad = (1 / 2.0f * Mathf.PI * myDirection / 2.0f + 1 / 4.0f * Mathf.PI);
-        float nextx = speed * Mathf.Cos(rad);
-        float nextz = speed * Mathf.Sin(rad);
-        Vector3 nextposition = new Vector3(nextx, 0, nextz);
-        return this.transform.position + nextposition;
+        watcherx = rad;
+
+        Vector3 nextstep = GetNextStep(speed, rad);
+        return this.transform.position + nextstep;
+    }
+    private Vector3 GetNextStep(float _speed, float rad)
+    {
+        float nextx = _speed * Mathf.Cos(rad);
+        float nextz = _speed * Mathf.Sin(rad);
+        Vector3 nextstep = new Vector3(nextx, 0, nextz);
+        Vector3 smallz = this.transform.forward;
+        //y==0
+        Vector3 smallx = new Vector3(smallz.z * -1f, 0, smallz.x);
+
+        nextstep = Vector3.Dot(smallz, nextstep) * smallz + Vector3.Dot(smallx, nextstep) * smallx;
+        
+
+
+        return nextstep;
     }
 }

@@ -543,7 +543,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fc2b685be9eb04ba1afca408011c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  watcher: 0
+  watcherx: 0
+  watchery: 0
+  watcherz: 0
 --- !u!1 &2031163039 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100314, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
