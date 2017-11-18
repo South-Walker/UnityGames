@@ -47,3 +47,13 @@ unity学习笔记
 >* 令以物体朝向为z轴得到的坐标系为小坐标系，先以小坐标系为准，用角度和速度得到参考位移矢量β，β在小坐标系z轴上投影为b，在数值上等于|α·β|，所以物体在z轴方向位移矢量等于|α·β|α
 >* 假设矢量γ⊥α，所以有|γ·α|=0，γ可解，物体在伽马方向位移矢量等于|β·γ|γ
 >* 故矢量β在大坐标系上等于|α·β|α+|β·γ|γ
+>* 但是，以上算法有个缺点，由于朝向已经和Direction属性绑定，而Direction是基于输入的，所以在无输入时，朝向恢复默认值。
+>* 解决方法(待想)
+
+#### 2017-11-17
+>```c#
+>Vector3.Cross(nowforward, blueaxis) == Vector3.Cross(beforeforward, blueaxis);
+>Vector3.Dot(nowforward, blueaxis) <= Vector3.Dot(beforeforward, blueaxis);
+>```
+>* 前者利用外积判断两单位向量是否在z轴同侧，后者利用内积判断nowforward与z轴成的角是否大于beforeforward与z轴成的角
+
