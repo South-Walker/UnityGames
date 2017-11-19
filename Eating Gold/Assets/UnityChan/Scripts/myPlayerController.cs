@@ -34,6 +34,7 @@ public class myPlayerController : MonoBehaviour {
         }
     }
     public float Rotation = 0;
+    private float minMoveSpeed = 0.1f;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -60,15 +61,15 @@ public class myPlayerController : MonoBehaviour {
     private void LateUpdate()
     {
         float newdirection = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(newdirection) >= Mathf.Abs(Direction) || newdirection * Direction < 0) 
-        {
-            Rotation += newdirection;
-        }
         Direction = newdirection;
         SmoothSetSpeed = Mathf.Abs(Direction) + 2 * Mathf.Abs(Input.GetAxis("Vertical"));
-        if (Speed <= 0.1f)
+        if (Speed <= minMoveSpeed)
         {
             Speed = 0;
+        }
+        else if (Mathf.Abs(newdirection) >= Mathf.Abs(Direction) || newdirection * Direction < 0)
+        {
+            Rotation += newdirection;
         }
     }
 

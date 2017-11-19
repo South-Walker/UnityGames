@@ -14,8 +14,10 @@ public class myCameraController : MonoBehaviour {
 	void Update () {
         Vector3 now = this.transform.position;
         Vector3 aim = FollowObject.transform.position;
-        aim = aim - new Vector3(0, 0, 1) * 12 + new Vector3(0, 2.5f, 0);
+        aim = aim - FollowObject.transform.forward * 12 + new Vector3(0, 2.5f, 0);
         this.transform.position = Vector3.Lerp(aim, now, Time.deltaTime * Smooth);
-        this.transform.rotation = Quaternion.Euler(5, 0, 0);
+        this.transform.rotation = Quaternion.Euler(Vector3.Lerp(new Vector3(5, FollowObject.GetComponent<myPlayerController>().Rotation, 0),
+            this.transform.rotation.eulerAngles,
+            Time.deltaTime * Smooth * 100));
 	}
 }

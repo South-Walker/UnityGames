@@ -75,3 +75,11 @@ unity学习笔记
 >Vector3 right = Vector3.Cross(front, new Vector3(0, 1, 0));
 >Vector3 nextstep = nextz * front + nextx * right;
 >```
+
+#### 2017-11-19
+
+>```c#
+>public GameObject GameObject;
+>GameObject.GetComponent<ScriptName>().AttributionOrMethor
+>```
+>* 用这种泛型形式在别的脚本中调用ScriptName脚本中的属性或方法
