@@ -51,10 +51,7 @@ unity学习笔记
 >* 但是，以上算法有个缺点，由于朝向已经和Direction属性绑定，而Direction是基于输入的，所以在无输入时，朝向恢复默认值。
 >* 解决方法:
 >```c#
->if (Mathf.Abs(newdirection) >= Mathf.Abs(Direction) || newdirection * Direction < 0) 
->{
->   Rotation += newdirection;
->}
+>Rotation += newdirection;//之前相当于是用向量的方向来表示，现在是与direction值本身持续的时间和大小挂钩
 >```
 
 #### 2017-11-17
@@ -83,3 +80,21 @@ unity学习笔记
 >GameObject.GetComponent<ScriptName>().AttributionOrMethor
 >```
 >* 用这种泛型形式在别的脚本中调用ScriptName脚本中的属性或方法
+
+#### 2017-11-20
+
+>* 生成exe的方法File=>Build Settings
+
+>* 判断当前动画播放状态（AnimatorStateInfo类）
+>```c#
+>private bool haveJumped()
+>{
+>   var animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+>   if (animatorStateInfo.IsName("Jump") && animatorStateInfo.normalizedTime > 0.8)
+>   {
+>       willJump = false;
+>       return true;
+>   }
+>   return false;
+>}
+在direction!=0时，如果跳跃，有一个瞬间变化量
