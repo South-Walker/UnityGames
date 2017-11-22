@@ -97,4 +97,14 @@ unity学习笔记
 >   }
 >   return false;
 >}
-在direction!=0时，如果跳跃，有一个瞬间变化量
+
+#### 2017-11-22
+
+>* 当需要做操控角色的碰撞检测时，用Character Controller比添加为刚体更为方便，此时，使this运动不再直接对this.transform.position赋值，而使用如下方法：
+>```c#
+>public CharacterController CharacterController;
+>CharacterController = this.GetComponent<CharacterController>();
+>CharacterController.move(GetNextStep());
+>```
+>* Character Controller与刚体重力不兼容，同时使用会造成物体震颤，解决方法是使用isGrounded判断是否在地面，如果不是，维护一个表示向下速度的属性，在帧末尾执行下落操作
+>* Character Controller里Skin Width是个比较重要的属性，表示允许别的碰撞器进入多少距离，有待研究

@@ -7,8 +7,10 @@ public class myPlayerController : MonoBehaviour {
     private bool isSpeedLocked = false;
     private bool isDirectionLocked = false;
     private bool isRotatiomLocked = false;
-    public float watcher;
-    public bool watcher2;
+    public CharacterController CharacterController;
+    public float VertSpeed = 0f;
+    public bool watcher1;
+    public float watcher2;
     public float Speed
     {
         get
@@ -44,6 +46,10 @@ public class myPlayerController : MonoBehaviour {
             if (!isDirectionLocked)
             {
                 animator.SetFloat("Direction", value);
+            }
+            else
+            {
+                SmoothSetDirection = 0;
             }
         }
     }
@@ -85,6 +91,7 @@ public class myPlayerController : MonoBehaviour {
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        CharacterController = this.GetComponent<CharacterController>();
     }
     // Use this for initialization
     void Start () {
@@ -94,6 +101,15 @@ public class myPlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        watcher2 = VertSpeed;
+        if (!CharacterController.isGrounded) 
+        {
+            VertSpeed += Time.deltaTime * 9.8f;
+        }
+        else
+        {
+            VertSpeed = 0;
+        }
         //准备跳跃
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -113,7 +129,7 @@ public class myPlayerController : MonoBehaviour {
             animator.SetBool("hasRun", true);
             animator.SetBool("isTired", false);
             this.transform.rotation = Quaternion.Euler(0, Rotation, 0);
-            this.transform.position = GetNextPosition(Speed, Direction, Mathf.PI / 4f, Mathf.PI / 4f * 3f);
+            CharacterController.Move(GetNextStep(Speed, Direction, Mathf.PI / 4f, Mathf.PI / 4f * 3f));
         }
     }
     private void LateUpdate()
@@ -127,9 +143,7 @@ public class myPlayerController : MonoBehaviour {
         }
 
         //修改方向
-        watcher2 = isDirectionLocked;
         float newdirection = (isDirectionLocked) ? 0 : Input.GetAxis("Horizontal");
-        watcher = newdirection;
         if (newdirection * Direction < 0)
         {
             SmoothSetSpeed = 0;
@@ -141,28 +155,24 @@ public class myPlayerController : MonoBehaviour {
         }
         Direction = newdirection;
     }
-
-    public Vector3 GetNextPosition(float speed, float direction, float beginrad = -1 / 4f * Mathf.PI, float endrad = 5 / 4f * Mathf.PI)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+    }
+    public Vector3 GetNextStep(float speed, float direction, float beginrad = -1 / 4f * Mathf.PI, float endrad = 5 / 4f * Mathf.PI)
     {
         speed = 0.02f * speed;
         float myDirection = 1f - direction;
         float rad = ((endrad - beginrad) * myDirection / 2f + beginrad);
-
-        Vector3 nextstep = GetNextStep(speed, rad);
-        return this.transform.position + nextstep;
-    }
-    private Vector3 GetNextStep(float _speed, float rad)
-    {
-        float nextx = _speed * Mathf.Cos(rad);
-        float nextz = _speed * Mathf.Sin(rad);
+        float nextx = speed * Mathf.Cos(rad);
+        float nextz = speed * Mathf.Sin(rad);
         Vector3 front = this.transform.forward;
         Vector3 right = Vector3.Cross(new Vector3(0, 1, 0), front);
-        Vector3 nextstep = nextz * front + nextx * right;
+        Vector3 nextstep = nextz * front + nextx * right + VertSpeed * new Vector3(0, -1, 0);
         return nextstep;
     }
     public bool tryJump()
     {
-        if (isJumping())
+        if (isJumping()) 
             return false;
         else if (!willJump)
         {
