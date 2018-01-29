@@ -155,9 +155,6 @@ public class myPlayerController : MonoBehaviour {
         }
         Direction = newdirection;
     }
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-    }
     public Vector3 GetNextStep(float speed, float direction, float beginrad = -1 / 4f * Mathf.PI, float endrad = 5 / 4f * Mathf.PI)
     {
         speed = 0.02f * speed;

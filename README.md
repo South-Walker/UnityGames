@@ -16,7 +16,7 @@ unity学习笔记
 >```c#
 >this.transform.rotation = Quaternion.Euler(5, 0, 0);
 >```
->* 要注意旋转这个属性不简单是一个三元数（可以用三元数实例化Quaternion）用的是欧拉旋转法，每个参数分别表示绕x，y，z轴旋转度数。<a href="http://blog.csdn.net/candycat1992/article/details/41254799" target="_blank" title="dachuang">关于旋转的具体说明，有时间再看</a>
+>* 要注意旋转这个属性不简单是一个三元数（可以用三元数实例化Quaternion）用的是欧拉旋转法，每个参数分别表示绕x，y，z轴旋转度数。<a href="http://blog.csdn.net/candycat1992/article/details/41254799" target="_blank">关于旋转的具体说明，有时间再看</a>
 
 #### 2017-11-14
 
@@ -108,3 +108,29 @@ unity学习笔记
 >```
 >* Character Controller与刚体重力不兼容，同时使用会造成物体震颤，解决方法是使用isGrounded判断是否在地面，如果不是，维护一个表示向下速度的属性，在帧末尾执行下落操作
 >* Character Controller里Skin Width是个比较重要的属性，表示允许别的碰撞器进入多少距离，有待研究
+
+#### 2017-12-8
+
+>* <a href="http://blog.csdn.net/lishuzhai/article/details/48501171" target="_blank" title="dachuang">关于粒子效果相关参数说明</a>
+>* Duration：动画持续时间（loop关闭）
+>* Start Lifetime:粒子存活时间
+>* Start Speed:粒子初速度
+>* Start Size:初状态粒子大小
+>* Emission（（气体）排放，散发）
+    >* Rate:每秒发射粒子数量
+>* Shape（发射器形状）
+>* Color over Lifetime:随粒子存活时间改变的粒子颜色
+>* Size over Lifetime:随粒子存活时间改变的粒子大小
+>* Renderer（渲染器）
+
+#### 2018-1-27
+
+>* 用旋转矩阵解决应用在不同移动平台下的适应问题
+    >* 首先明确一点，对任意向量（x;y;z）做出的有限次平移，缩放，旋转操作后得到的新向量（x';y';z'），可以用旋转矩阵（1）与（x;y;z;1）相乘得到（x';y';z';1），而旋转矩阵（1）可由4*4单位矩阵进行有限次初等行变化得到，只与变化有关，与向量本身无关
+    >* 显然，由矩阵乘法的定义，（x;y;z;1）乘以4*4单位矩阵得到（x;y;z;1），即对不变成立
+    >* 假设位移后向量为（x+a;y+b;z+c;1），显然，由初等变化与矩阵乘法，只需要对4*4单位矩阵进行3次第三类初等变换即R30(a),R31(b),R32(c)
+    >* 假设释放后向量为（ax;by;cz;1），显然，由初等变化与矩阵乘法，只需要对4*4单位矩阵进行3次第2类初等变换即R0(a),R1(b),R2(c)
+    >* 旋转的证明较为麻烦，首先应该说明的是，在三维空间中表示刚体的旋转有两种方法：欧拉角与四元数
+        >* 欧拉角：将物体的旋转拆分成分别以三个轴为转动轴的旋转
+            >* 万向节死锁：gimbal万向节在一个平面恰好旋转90度后，存在两平面重合，即两转动轴重合，此刻万向节本身相当于只存在2个转动轴，只有2种转动方式，丧失了1个转动自由度。<a href="http://v.youku.com/v_show/id_XNzkyOTIyMTI=.html" target="_blank" title="dachuang">关万向节锁视频</a>
+            >* 在unity里，特别的，定义了旋转父子关系是y-x-z，即先改变y的值，再改变x，最后改变z。当改变到x的值时使得z,y重合，即成为万向节锁，此时，对y与对z的旋转等效。
