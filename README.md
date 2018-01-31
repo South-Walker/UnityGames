@@ -152,3 +152,19 @@ unity学习笔记
                 >*       0       0       0 1
             >* 按YXZ的顺序相乘:[cos(y)*cos(z)+sin(x)*sin(y)*sin(z),cos(z)*sin(x)*sin(y)-cos(y)*sin(z), cos(x)*sin(y),0;cos(x)*sin(z),cos(x)*cos(z),-sin(x), 0; cos(y)*sin(x)*sin(z) - cos(z)*sin(y), sin(y)*sin(z) + cos(y)*cos(z)*sin(x), cos(x)*cos(y),0;0,0,0,1]
 
+#### 2018-1-30
+
+>* OnGUI方法在渲染GUI的时候被调用（频繁的），在OnGUI内部使用的方法应该为GUI类的静态方法(也可以设置GUI类的静态属性)例如：
+    >* GUI.matrix：设置自适应矩阵
+    >* GUI.Button：设置按钮，这个方法有一个bool返回值，在被点击后返回True，捕捉后可以进行处理
+    >* GUI.DrawTexture：设置材质（背景）
+>* 由于OnGUI方法是频繁调用的，所以切换页面的逻辑就很显然了，即令旧脚本（实际上是MonoBehaviour类的一个子类的实例，可以通过GetComponents<MonoBehaviour>()得到所有脚本的数组）的enabled属性为false，新脚本的enabled属性为true，此时渲染新页面的GUI而非旧页面的，即实现换页（不更换场景）
+>* PlayerPrefs这个类下有静态方法可以支持本地持久化保存与读取（SetInt,GetInt,SetFloat,GetFloat,SetString,GetString）
+    >* 在不同平台下保存的方法不同，在windows下是以注册表的形式写入的，查看方法是win+r输入regedit，数据存储在HKEY_CURRENT_USER->Software->[CompanyName]->[ProjectName]
+    >* CompanyName与ProjectName的查看方法：File=>Build Setting=>Player Settings，在最上方
+
+#### 2018-1-31
+
+>* 切换场景方法：
+    >* Application.LoadLevel("SceneName");//5.0版本以前
+    >* SceneManager.LoadScene("SceneName");//5.0版本以后，需要引用UnityEngine.SceneManagement命名空间
