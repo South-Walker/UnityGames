@@ -168,3 +168,53 @@ unity学习笔记
 >* 切换场景方法：
     >* Application.LoadLevel("SceneName");//5.0版本以前
     >* SceneManager.LoadScene("SceneName");//5.0版本以后，需要引用UnityEngine.SceneManagement命名空间
+
+#### 2018-2-1
+
+>* 移动端拖动页面不换页，松开手指换页的方法
+>```c#
+>        //判断是否触控
+>        if (Input.touchCount > 0)
+>        {
+>            //获取一个触控点    
+>            Touch touch = Input.GetTouch(0);
+>            //按钮按下时的回调方法
+>            if (touch.phase == TouchPhase.Began)
+>            {
+>                touchPoint = touch.position;//记录down点
+>                prePositon = touch.position;//记录down点                
+>            }
+>            else if (touch.phase == TouchPhase.Moved)
+>            {
+>                //touch.position.y - preP          
+>                float newPositonY = positionY - touch.position.y + prePositon.y;
+>                //positionY的范围-480*7-0
+>                positionY = (newPositonY > 0) ? 0 : (newPositonY > (-480 * 7) ? newPositonY : (-480 * 7));
+>                //记录上一次的触控点
+>                prePositon = touch.position;
+>            }
+>            else if (touch.phase == TouchPhase.Ended)
+>            {
+>                //手指抬起来时，图片开始自动移动
+>                isMoving = true;
+>                //计算从触控开始到抬起的距离
+>                currentDistance = (touch.position.y - touchPoint.y) / scale;
+>                //执行移动方法      
+>                step = (Mathf.Abs(currentDistance) > 150.0f) ? (currentDistance > 0 ? 1 : (-1)) : 0;
+>                //计算当前移动步径
+>                moveStep = (Mathf.Abs(currentDistance) > 150.0f) ? (currentDistance > 0 ? -Mathf.Abs(moveStep) : Mathf.Abs(moveStep)) : (currentDistance > 0 ? Mathf.Abs(moveStep) : -Mathf.Abs(moveStep));
+>                //计算当前编号
+>                int newIndex = currentIndex + step;
+>                //如果编号超出边界,进行处理
+>                //修改当前索引值currentIndex，在OnGUI里渲染
+>                currentIndex = newIndex;
+>            }
+>```
+
+#### 2018-2-1
+
+>* 注意直接在界面上对实例变量赋值的优先度是高于在脚本赋值的
+
+#### 2018-2-4
+
+>* OnGUI最后只在一个挂载脚本中存在，不然可能重叠
