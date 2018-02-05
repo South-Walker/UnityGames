@@ -218,3 +218,15 @@ unity学习笔记
 #### 2018-2-4
 
 >* OnGUI最后只在一个挂载脚本中存在，不然可能重叠
+
+#### 2018-2-5
+
+>* 一般的，在unity的Inspector界面中输入的变量只有其特定的几种，为了能够输入自己声明的类型，需要在类型声明前将其对象序列化
+>```c#
+>	[System.Serializable]
+>	public class className
+>	{
+>        //your class
+>   }
+>```
+>* 在unity中，如果一个物体本身是预置体（Prefab）的副本（名字是蓝色），其具有回复成原先状态的功能，当预置体被删除后，这个功能失效，物体处于Missing状态（名字是棕红色），解决方法是选中物体=>GameObject=>Break Prefab Instance，由于这个物体不再被当做一个Prefab的实例，故功能消失，从Missing状态恢复
