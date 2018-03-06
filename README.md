@@ -230,3 +230,12 @@ unity学习笔记
 >   }
 >```
 >* 在unity中，如果一个物体本身是预置体（Prefab）的副本（名字是蓝色），其具有回复成原先状态的功能，当预置体被删除后，这个功能失效，物体处于Missing状态（名字是棕红色），解决方法是选中物体=>GameObject=>Break Prefab Instance，由于这个物体不再被当做一个Prefab的实例，故功能消失，从Missing状态恢复
+
+#### 2018-3-6
+
+>* 切换场景方法（异步版本）：
+    >* AsyncOperation ChangeProg = SceneManager.LoadSceneAsync("FantasyPlanetScene");
+    >* 通过修改ChangeProg的allowSceneActivation属性决定切换场景时机，同时也提供了查询加载进度的方法
+>* 如需编码入一个文本文件，可以直接放在Assets目录下，在脚本中，以TextAsset形式获取
+>* 在unity下，Visual Studio更像是作为编辑器在被使用，部分引用需要手动添加到unity文件中（区别于直接添加服务引用）使用部分引用时要留意跨平台时是否能用（如System.Drawing）
+>* Image类的Save实例方法使用会导致unity崩溃，理由是使用了Visual Studio自带的System.Drawing.dll（将它复制到了unity的Asset里）而实际上能被unity接受的System.Drawing.dll存在于C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Drawing.dll，明显大小不一样，应该是经过了重写以便跨平台调用，将其复制到Asset里即可
