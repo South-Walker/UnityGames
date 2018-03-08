@@ -12,7 +12,7 @@ unity学习笔记
 >this.transform.position = Vector3.Lerp(aim, now, Time.deltaTime * Smooth);
 >```
 >* 线性插值方法，实际上是从now点出发在获得一个接近aim的比，now与aim距离之值 比上 返回值与aim距离之值等于第三个参数，用这个方法可以实现摄像机弹性的跟踪一个移动目标
-
+>* Instantiate(Prefab);//生成预制体，返回值是生成的预制体的Transform属性（引用类型），可以使用其SetPrent方法设定父
 >```c#
 >this.transform.rotation = Quaternion.Euler(5, 0, 0);
 >```
@@ -238,4 +238,37 @@ unity学习笔记
     >* 通过修改ChangeProg的allowSceneActivation属性决定切换场景时机，同时也提供了查询加载进度的方法
 >* 如需编码入一个文本文件，可以直接放在Assets目录下，在脚本中，以TextAsset形式获取
 >* 在unity下，Visual Studio更像是作为编辑器在被使用，部分引用需要手动添加到unity文件中（区别于直接添加服务引用）使用部分引用时要留意跨平台时是否能用（如System.Drawing）
->* Image类的Save实例方法使用会导致unity崩溃，理由是使用了Visual Studio自带的System.Drawing.dll（将它复制到了unity的Asset里）而实际上能被unity接受的System.Drawing.dll存在于C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Drawing.dll，明显大小不一样，应该是经过了重写以便跨平台调用，将其复制到Asset里即可
+>* Image类的Save实例方法使用会导致unity崩溃，理由是使用了Visual Studio自带的System.Drawing.dll（将它复制到了unity的Asset里）而实际上能被unity接受的System.Drawing.dll存在于C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Drawing.dll，明显大小不一样，应该是经过了重写以适应mono平台，将其复制到Asset里即可
+>* 不过就算这样做了。。。实际上在移动端也没办法使用System.Drawing.dll
+
+#### 2018-3-7
+
+>* 今天开始研究unity的ui
+>* 在不同环境下有时候会希望同一个方法有不同行为，可以以添加宏定义的方式实现
+>```c#
+>	public void Quit () 
+>	{
+>		#if UNITY_EDITOR
+>       //停止调试
+>		UnityEditor.EditorApplication.isPlaying = false;
+>		#else
+>       //退出应用程序
+>		Application.Quit();
+>		#endif
+>	}
+>```
+>* 公共变量在Inspector中能被修改的值可以通过添加特性的方法被约束
+>```c#
+>    [Range(10,100)]
+>    public int resolution = 10;//在代码中的修改不受此限制
+>```
+>* Time.time从游戏开始经过的时间，用秒表示
+
+#### 2018-3-7
+
+>* 关于协程
+    >* 协程本质上是利用迭代器IEnumerator实现的跨帧保留数据，工作的方法
+    >* StartCoroutine();是协程最重要的方法，其可以传入一个返回迭代器的方法（可以是函数本身，也可以是字符串形式的函数名，后者便于用StopCoroutine();终止），然后在每一帧会迭代一次迭代器
+    >* 由于迭代器本身不是多线程的实现，所以协程也不是多线程的
+>* 动态批处理Dynamic batching：当使用满足一定规则的相同的材质时，unity可以将其保存复用以节约cpu与gpu交互的次数，可以通过点击Game界面Stats查看影响（Save by batching与Batches）
+>* 用一个Material实例来实例化Material的意思是创建其的一个深拷贝副本
