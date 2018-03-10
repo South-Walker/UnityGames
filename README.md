@@ -272,3 +272,10 @@ unity学习笔记
     >* 由于迭代器本身不是多线程的实现，所以协程也不是多线程的
 >* 动态批处理Dynamic batching：当使用满足一定规则的相同的材质时，unity可以将其保存复用以节约cpu与gpu交互的次数，可以通过点击Game界面Stats查看影响（Save by batching与Batches）
 >* 用一个Material实例来实例化Material的意思是创建其的一个深拷贝副本
+
+#### 2018-3-9
+
+>* ui界面的层次
+    >* Canvas承载所有ui元素
+    >* Panel，视ui复杂程度，下可能还有一个image
+>* 部分动画文件可能提前写死了执行动画的部件的名字（path），可以用文本形式打开进行修改
