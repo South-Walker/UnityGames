@@ -279,3 +279,9 @@ unity学习笔记
     >* Canvas承载所有ui元素
     >* Panel，视ui复杂程度，下可能还有一个image
 >* 部分动画文件可能提前写死了执行动画的部件的名字（path），可以用文本形式打开进行修改
+
+#### 2018-3-11
+布局
+Text UnityEngine.UI
+find
+Dropdown
