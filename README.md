@@ -281,7 +281,21 @@ unity学习笔记
 >* 部分动画文件可能提前写死了执行动画的部件的名字（path），可以用文本形式打开进行修改
 
 #### 2018-3-11
-布局
-Text UnityEngine.UI
-find
-Dropdown
+
+>* 在元素内部对其子元素布局，可以通过添加Layout Group组件的形式（本次使用的是Grid Layout Group）本质上是基于网格的布局
+>* 修改UGUI类的Text类UI内的Text组件值，需要引用using UnityEngine.UI命名空间
+>* 在代码中查找元素最简单的方法是使用Find函数，它是位于Transform类的实例方法，如果直接输入名字代表检索子元素内名字为输入字符的元素，也可以用路径的形式检索孙及以下节点，注意它本身对性能开销极大，不应该在update及类似函数中使用（作为替代，可以在类中声明变量，将其保存在内存中）
+
+#### 2018-3-15
+
+>* Auto Layout System 自动布局系统
+    >* 自动布局系统可分为Layout Controllers（父物件，控制器）与Layout Elements（子物件，元素）
+    >* 以垂直布局工具为例，其控制器组件名为Vertical Layout Group，对应的元素组件名为Layout Element
+    >* unity2017更改了一些设定，似乎如果不在控制器中勾选Child Controls Size的对应选项，子元素中就无法使用Min => Preferred => Flexible的三级调节
+    >* 对Min，Preferred，Flexible的理解
+        >* Min：元素所能接受的最小大小，如果子元素Min之和超过控制器的对应大小，元素会超出控制器
+        >* Prefferred：在满足Min的条件下如果控制器还有空间，会把空间用来满足Prefferred，值得注意的是如果空间不足以完全分配，会按一定算法分配，此时，请求的Prefferred越多得到的空间越多
+        >* Flexible：在满足前两者的情况下，继续进行分配，值得注意的是前两者都是基于像素，而Flexible是基于比例
+    >* 在控制器的Inspector最下方中，可以切换为Layout Properties查看该控制器内元素Min，Preferred，Flexible之和，以用来确定控制器对象的宽高
+    >* 在控制器中修改Child Alignment属性可以修改布局，Upper、Middle、Lower决定元素在Y轴上的对齐方向，Left、Center、Right决定元素在X轴上的对齐方向，两者共同形成一个九宫格对齐方案
+>* 关于Resources.Load()方法，一定要注意，其所加载的对象路径是以Assets下名为Resources的目录为根目录的相对路径
