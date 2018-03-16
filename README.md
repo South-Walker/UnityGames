@@ -299,3 +299,6 @@ unity学习笔记
     >* 在控制器的Inspector最下方中，可以切换为Layout Properties查看该控制器内元素Min，Preferred，Flexible之和，以用来确定控制器对象的宽高
     >* 在控制器中修改Child Alignment属性可以修改布局，Upper、Middle、Lower决定元素在Y轴上的对齐方向，Left、Center、Right决定元素在X轴上的对齐方向，两者共同形成一个九宫格对齐方案
 >* 关于Resources.Load()方法，一定要注意，其所加载的对象路径是以Assets下名为Resources的目录为根目录的相对路径
+
+toDo
+DetailedWindow的动画
