@@ -300,5 +300,16 @@ unity学习笔记
     >* 在控制器中修改Child Alignment属性可以修改布局，Upper、Middle、Lower决定元素在Y轴上的对齐方向，Left、Center、Right决定元素在X轴上的对齐方向，两者共同形成一个九宫格对齐方案
 >* 关于Resources.Load()方法，一定要注意，其所加载的对象路径是以Assets下名为Resources的目录为根目录的相对路径
 
-toDo
-DetailedWindow的动画
+#### 2018-3-16
+
+>* 关于Awake(),Start(),OnEnable()
+    >* 在官网文档上，Awake(),Start()的执行时机是First Scene Load，即场景初次加载时，而Start()的执行时机是Befor the first frame update,即第一次Update()函数执行前，显然前两者优先级较Start()大，而Awake在场景加载完后就发生，优先级大于Enable
+    
+#### 2018-3-18
+
+>* 如果在动画中只是想实现简单的位移，可以用animtor的过渡自动生成，只需要在终末animtion中写好状态就好
+
+#### 2018-3-19
+
+>* Light Probes：灯管探测器，是一个网格渲染器（Mesh Renderer）中的属性，与光反射有关，在烘培结束后对场景内非静态物体继续渲染
+>* DontDestroyOnLoad(Object target)：在unity中，要加载新scene时，首先会先Destroy旧场景的所有对象，但是如果旧场景中有对象被传入了DontDestroyOnLoad方法，那么其将被保留到新场景中
