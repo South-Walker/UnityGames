@@ -312,4 +312,8 @@ unity学习笔记
 #### 2018-3-19
 
 >* Light Probes：灯管探测器，是一个网格渲染器（Mesh Renderer）中的属性，与光反射有关，在烘培结束后对场景内非静态物体继续渲染
->* DontDestroyOnLoad(Object target)：在unity中，要加载新scene时，首先会先Destroy旧场景的所有对象，但是如果旧场景中有对象被传入了DontDestroyOnLoad方法，那么其将被保留到新场景中
+>* DontDestroyOnLoad(Object target)：在unity中，要加载新scene时，首先会先Destroy旧场景的所有对象，但是如果旧场景中有对象被传入了DontDestroyOnLoad方法，那么其将被保留到新场景中，注意，该方法需要保证在回复旧场景时不在生成新的target不然target对象会越来越多
+
+#### 2018-3-20
+
+>* Input.acceleration：acceleration这个词在物理里是加速度的意思，在unity里用来获取手机感受到的重力方向
